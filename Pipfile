@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+pydantic = "*"
+sqlalchemy = "*"
+uvicorn = "*"
+psycopg2 = "*"
+werkzeug = "*"
+jwt = "*"
+redis = "*"
+python-multipart = "*"
+selenium = "*"
+celery = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
