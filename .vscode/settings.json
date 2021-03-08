@@ -1,0 +1,45 @@
+{
+  "terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",
+  "editor.cursorBlinking": "phase",
+  "explorer.confirmDelete": false,
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  "files.exclude": {
+    "**/__pycache__": true
+  },
+  //"python.defaultInterpreterPath": "C:\\Program Files\\Python39\\python.exe",
+  "terminal.integrated.rendererType": "dom",
+
+  "launch": {
+    "configurations": [],
+    "compounds": []
+  },
+  "git.confirmSync": false,
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.enabled": true,
+  "python.linting.pylintArgs": ["--load-plugins", "pylint-flask"],
+  "[python]": {
+    "editor.rulers": [120],
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "SynthWave '84",
+  "synthwave84.brightness": 1.0,
+  "workbench.editorAssociations": [
+    {
+      "viewType": "jupyter.notebook.ipynb",
+      "filenamePattern": "*.ipynb"
+    }
+  ],
+  "yaml.schemas": {
+    "file:///c%3A/Users/Safa/.vscode/extensions/atlassian.atlascode-2.8.5/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+  },
+  "atlascode.jira.enabled": false
+}

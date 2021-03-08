@@ -7,3 +7,5 @@ app = FastAPI()
 
 app.include_router(auth, prefix='/auth', tags=['Auth'])
 app.include_router(twitter, prefix='/twitter', tags=['Twitter İşlemleri'])
+
+# its just a teskt
