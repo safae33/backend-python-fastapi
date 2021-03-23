@@ -9,7 +9,7 @@ from app.db.models.user import User
 
 app = FastAPI()
 
-app.on_event("startup"):
+app.on_event("startup")
 async def startup(db: Depends(get_db)):
     """
         Program ilk defa çlıştırılıyors ve veritbanı henüz hazır değilse bu işlemi yapar.
