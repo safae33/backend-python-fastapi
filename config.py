@@ -16,9 +16,12 @@ class Uvicorn:
 
 
 class SQLAlchemy:
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:asd123@localhost:5432/test12'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://safa:asd123@postgresql:5432/test321' # localhost yerine postgresql yazılıyor çünkü docker network içinde aranacak adres gerekli.
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class Redis:
+    URL = "redis"
 
 
 class General:
@@ -27,3 +30,8 @@ class General:
     CACHE_TOKEN_EXPIRE_SECONDS = 1200
     CHROME_DRIVER_PATH = "D:\\App\\chromedriver.exe"
     CHROME_COOKIES_ROOT_PATH = "D:\\app\\Cookies"
+
+
+class CeleryOpt:
+    BROKER_CONNECTION_URL = "redis://localhost/1"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/2"

@@ -5,6 +5,7 @@ from fastapi import Depends, HTTPException, status
 from typing import Optional
 
 from app.db.session import SessionLocal
+from config import Redis
 
 
 def get_db():
@@ -21,7 +22,7 @@ def get_db():
 
 class Redis:
     def __init__(self):
-        self.redis = redis.Redis(host='localhost', port=6379, db=0)
+        self.redis = redis.Redis(host=redis.URL, port=6379, db=0)
 
     def get(self, key):
         try:

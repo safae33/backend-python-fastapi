@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import session, Query
 
@@ -6,8 +6,9 @@ from app.dependencies import get_db, OAuth2, Redis
 from app.schemas.request import *
 from app.schemas.response import *
 from app.db.crud import Crud, MultiTable
-from app.db.models.user import UserBasic, UserDetails
+from app.db.models.user import User
 from app.services import Token
+from app.celery import twitter, check
 from config import General
 
 
@@ -39,11 +40,15 @@ def test(db: session = Depends(get_db)):
     return user
 
 
-@auth.post('/new_details')
-def test(db: session = Depends(get_db)):
-    user = Crud.create(db=db, obj=UserDetails(
-        user_id=3, title="ehueheuheuehueheuheu"))
-    return user
-
 # UserBasic(mail="as1ada@asd.com", pw_hash="1231221",
 #           type_=2, first_name="asdsa", last_name="qweqw")
+
+@auth.get('/celerytest')
+def test(userId: int = Depends(OAuth2.get_current_user)):
+    key = twitter.testCelery.delay()
+    return key.id
+
+
+@auth.post('/celerycheck')
+def test(req: CheckCelery, userId: int = Depends(OAuth2.get_current_user)):
+    return check(req.id)
