@@ -1,10 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
-<<<<<<< HEAD
 from sqlalchemy.orm import session 
-=======
-from sqlalchemy.orm import session, Query
->>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
+
 
 from app.dependencies import get_db, OAuth2, Redis
 from app.schemas.request import *
@@ -25,7 +22,6 @@ async def token(db: session = Depends(get_db), form_data: OAuth2PasswordRequestF
     cache.set(t, id, ex=General.CACHE_TOKEN_EXPIRE_SECONDS)
     return {'access_token': t}
 
-<<<<<<< HEAD
 @auth.post('/addTestUser')
 def add(db: session = Depends(get_db)):
     new = User()
@@ -42,22 +38,12 @@ def add(db: session = Depends(get_db)):
 @auth.get('/test')
 def test(db: session = Depends(get_db), cache: Redis = Depends()):
     return Crud.get_multi(db, User)
-=======
-
-@auth.get('/test')
-def test(db: session = Depends(get_db), cache: Redis = Depends(), userId: int = Depends(OAuth2.get_current_user)):
-    return Crud.get(db, UserBasic, 10)
->>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
 
 
 @auth.delete('/del')
 def test(db: session = Depends(get_db)):
-<<<<<<< HEAD
     user = Crud.delete(db=db, model=User, id=2)
     user = Crud.delete(db=db, model=User, id=1)
-=======
-    user = Crud.delete(db=db, model=UserBasic, id=request.id)
->>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
     return user
 
 
