@@ -23,13 +23,6 @@
     "editor.rulers": [120],
     "editor.defaultFormatter": "ms-python.python"
   },
-  "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "editor.formatOnSave": true,
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
   "workbench.colorTheme": "SynthWave '84",
   "synthwave84.brightness": 1.0,
   "workbench.editorAssociations": [
@@ -41,5 +34,6 @@
   "yaml.schemas": {
     "file:///c%3A/Users/Safa/.vscode/extensions/atlassian.atlascode-2.8.5/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
   },
-  "atlascode.jira.enabled": false
+  "atlascode.jira.enabled": false,
+  "python.pythonPath": ".venv/bin/python"
 }

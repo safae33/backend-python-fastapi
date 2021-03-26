@@ -132,8 +132,8 @@ class MultiTable:
     def login(cls, db: Session, obj: Login):
         """(Session, Login ) -> str
         """
-        user: UserBasic = Crud.get_filtered(
-            db, UserBasic, 'mail', obj.username)
+        user: User = Crud.get_filtered(
+            db, User, 'mail', obj.username)
         if user == None:
             # raise RowNotFound
             raise HTTPException(

@@ -11,3 +11,7 @@ class Login(BaseModel):
 class Account(BaseModel):
     username: str
     password: str
+
+
+class CheckCelery(BaseModel):
+    id: str

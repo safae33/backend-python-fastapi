@@ -1,3 +1,3 @@
 from .auth import Auth
-from .user import UserBasic, UserDetails
+from .user import User
 from .account import Account
