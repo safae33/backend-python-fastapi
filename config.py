@@ -28,8 +28,9 @@ class General:
     SECRET_KEY = '4xmWKRSz2GfIwEcIaGwx6F8G1yNeKZDNwzfMrk2MbcH8l7xcuqo6ky1pImu8Nwri'
     TOKEN_BYTE_SİZE = 64
     CACHE_TOKEN_EXPIRE_SECONDS = 1200
-    CHROME_DRIVER_PATH = "D:\\App\\chromedriver.exe"
-    CHROME_COOKIES_ROOT_PATH = "D:\\app\\Cookies"
+    CHROME_DRIVER_PATH = ""
+    # CHROME_COOKIES_ROOT_PATH = "D:\\app\\Cookies"
+    CHROME_COOKIES_ROOT_PATH = "/accounts"
 
 
 class Celery:

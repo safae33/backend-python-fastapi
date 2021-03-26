@@ -17,11 +17,10 @@ class Twitter():
 
     def __init__(self, userId: int):
         self.options = Options()
-        # self.options.add_argument('--headless')
+        self.options.add_argument('--headless')
         self.options.add_argument(
             'user-data-dir=' + General.CHROME_COOKIES_ROOT_PATH + '/' + str(userId) + '/' + '1')
-        self.browser = webdriver.Chrome(
-            executable_path=General.CHROME_DRIVER_PATH, chrome_options=self.options)
+        self.browser = webdriver.Chrome(chrome_options=self.options)
         self.elem = None
 
     def open_twitter(self):

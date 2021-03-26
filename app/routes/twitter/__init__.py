@@ -7,9 +7,11 @@ from app.db.crud import Crud, MultiTable
 from app.schemas.request import Account as AccountSc
 from app.db.models import Account
 from app.services.selenium import Twitter
+from app.celery.twitter import testCelery, twitter_login
 
 
-twitter = APIRouter(dependencies=[Depends(OAuth2.oauth2_schema)])
+# twitter = APIRouter(dependencies=[Depends(OAuth2.oauth2_schema)])
+twitter = APIRouter()
 
 
 @twitter.post('/newAccount')
@@ -28,17 +30,8 @@ def newAccount(bgTask: BackgroundTasks, userId: int = Depends(OAuth2.get_current
 
 
 @twitter.post('/testLogin')
-async def newAccount(bgTask: BackgroundTasks, userId: int = Depends(OAuth2.get_current_user)):
-    tw = Twitter(userId)
-    if userId == 10:
-        await tw.login("trtperko@gmail.com", "ekensafa05")
-        # tw.sl(4)
-    if userId == 11:
-        await tw.login("s.emrey97@gmail.com", "ekensafa05")
-
-    bgTask.add_task(tw.close_all)
-
-    return True
+def newAccount(userId: int = Depends(OAuth2.get_current_user)):
+    return twitter_login.delay("trtperko@gmail.com", "ekensafa05", userId).task_id
 
 
 @twitter.post('/testIsLogged')
@@ -48,3 +41,7 @@ async def newAccount(bgTask: BackgroundTasks, userId: int = Depends(OAuth2.get_c
     tw.sl(3)
     bgTask.add_task(tw.close_all)
     return None
+
+@twitter.post('/testCelerycikeheh')
+async def test():
+    testCelery.delay((5))
