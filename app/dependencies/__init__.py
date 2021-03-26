@@ -5,7 +5,11 @@ from fastapi import Depends, HTTPException, status
 from typing import Optional
 
 from app.db.session import SessionLocal
+<<<<<<< HEAD
 from config import Redis as RedisConf
+=======
+from config import Redis
+>>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
 
 
 def get_db():
@@ -22,7 +26,11 @@ def get_db():
 
 class Redis:
     def __init__(self):
+<<<<<<< HEAD
         self.redis = redis.Redis(host=RedisConf.URL, port=6379, db=0)
+=======
+        self.redis = redis.Redis(host=redis.URL, port=6379, db=0)
+>>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
 
     def get(self, key):
         try:

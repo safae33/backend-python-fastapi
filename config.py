@@ -32,6 +32,12 @@ class General:
     CHROME_COOKIES_ROOT_PATH = "D:\\app\\Cookies"
 
 
+<<<<<<< HEAD
 class Celery:
     BROKER_CONNECTION_URL = "redis://redis/1" # docker içindeki redis service ismi yazılıyor localhost yerine.
     CELERY_RESULT_BACKEND = "redis://redis:6379/2"
+=======
+class CeleryOpt:
+    BROKER_CONNECTION_URL = "redis://localhost/1"
+    CELERY_RESULT_BACKEND = "redis://localhost:6379/2"
+>>>>>>> 0bcd303da8d7601518af880ceb8cf72aec3c8d25
