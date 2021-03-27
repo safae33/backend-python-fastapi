@@ -23,3 +23,15 @@ def twitter_login(mail, pw, userId):
     except Exception as e:
         print(e)
         return "Başaramadık abi."
+
+@app.task
+def like_tweet(url, userId):
+    try:
+        tw = Twitter(userId)
+        tw.like_tweet_by_url(url)
+        tw.close_all()
+        del tw
+        return "Başarılı."
+    except Exception as e:
+        print(e)
+        return "Başaramadık abi."
