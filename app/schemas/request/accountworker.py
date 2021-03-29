@@ -17,7 +17,6 @@ class AccountWorker(BaseModel):
     """
     worker başlaması için tek bir accounta ait iş bildirimi.
     """
-    userId: str = ''
     accountId: str
     works: List[Work]
 

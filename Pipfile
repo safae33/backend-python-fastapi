@@ -15,7 +15,7 @@ redis = "*"
 python-multipart = "*"
 selenium = "*"
 celery = "*"
-
+flower = "*"
 
 [dev-packages]
 

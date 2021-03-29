@@ -32,7 +32,7 @@ class General:
     CACHE_TOKEN_EXPIRE_SECONDS = 12000
     CHROME_DRIVER_PATH = ""
     # CHROME_COOKIES_ROOT_PATH = "D:\\app\\Cookies"
-    CHROME_COOKIES_ROOT_PATH = "/accounts"
+    ACCOUNTS_PATH = "/accounts"
 
 
 class Celery:

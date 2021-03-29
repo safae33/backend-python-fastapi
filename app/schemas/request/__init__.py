@@ -15,3 +15,8 @@ class Account(BaseModel):
 
 class CheckCelery(BaseModel):
     id: str
+
+
+class delAcc(BaseModel):
+    # yalnızca test için hızlıca account silmek için
+    id: int
