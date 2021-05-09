@@ -41,7 +41,7 @@ class Twitter():
         self.browser: webdriver.Chrome = None
         self.elem = None
 
-    def run_works(self, works_dict, delayBetweenTweets=4):
+    def run_works(self, works_dict, delayBetweenTweets=3):
         """
         account için works tanımı uygular. bu bir kullanıcı için bir tweeti like ve retweet emri içerir. mention daha sonra*
         * ilk satırda raw dict halinden tekrar pydantic modeline dönüşür. bunun sebebi celery'nin dict veya json olarak serialize etme gerekliliği.
@@ -68,6 +68,7 @@ class Twitter():
             WebDriverWait(self.browser, 5, poll_frequency=0.2).until(
                 EC.presence_of_element_located((By.XPATH, '//div[@aria-label="Retweet"]')))
         except Exception:
+            self.close_all()
             print(
                 "BUNLAR DAHA DÜZGÜN LOG İŞLEMİYLE AYARLANACAK. AMA SONRA. AHATA OLDU BU ARADA")
         finally:
@@ -88,6 +89,7 @@ class Twitter():
             WebDriverWait(self.browser, 5).until(
                 EC.presence_of_element_located((By.XPATH, '//div[@aria-label="Like"]')))
         except Exception:
+            self.close_all()
             print(
                 "BUNLAR DAHA DÜZGÜN LOG İŞLEMİYLE AYARLANACAK. AMA SONRA. AHATA OLDU BU ARADA")
         finally:
@@ -105,6 +107,7 @@ class Twitter():
             myElem = WebDriverWait(self.browser, 2, poll_frequency=0.1).until(
                 EC.presence_of_element_located((By.XPATH, '//input[@name="session[username_or_email]"]')))
         except TimeoutException:
+            self.close_all()
             print(
                 "BUNLAR DAHA DÜZGÜN LOG İŞLEMİYLE AYARLANACAK. AMA SONRA. AHATA OLDU BU ARADA")
         finally:
@@ -121,6 +124,7 @@ class Twitter():
                     EC.presence_of_element_located((By.ID, 'react-root')))
 
             except TimeoutException:
+                self.close_all()
                 print(
                     "BUNLAR DAHA DÜZGÜN LOG İŞLEMİYLE AYARLANACAK. AMA SONRA. AHATA OLDU BU ARADA")
 

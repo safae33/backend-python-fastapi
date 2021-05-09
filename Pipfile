@@ -16,6 +16,9 @@ python-multipart = "*"
 selenium = "*"
 celery = "*"
 flower = "*"
+watchdog = "*"
+pyyaml = "*"
+argh = "*"
 
 [dev-packages]
 

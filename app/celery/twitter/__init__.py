@@ -15,6 +15,11 @@ def test(aw):
 
 
 @app.task
+def testCelery():
+    return "al işte bak ne oldu şimdi. test şeyi bu"
+
+
+@app.task
 def twitter_login(mail, pw, accountId):
     try:
         tw = Twitter(accountId, isInit=True)
@@ -43,10 +48,35 @@ def start_works_for_account(accountId, works_dict):
 @app.task
 def set_workers_for_account(accountWorker):
     try:
-
         start_works_for_account.delay(
             accountWorker['accountId'], accountWorker['works'])
         return "Başarılı. Parçalara ayırma tamamlandı."
     except Exception as e:
         print(e)
         return "daha set ederken başaramadık abi."
+
+# {
+#   "accountId": "2",
+#   "works": [
+#     {
+#       "tweetUrl": "amangorunmeyelm/status/1357127708535361536",
+#       "definition": {
+#         "like": true,
+#         "retweet": true
+#       }ls -lf
+#     },
+# {
+#       "tweetUrl": "amangorunmeyelm/status/1357127710863155203",
+#       "definition": {
+#         "like": true,
+#         "retweet": true
+#       }
+#     },{
+#       "tweetUrl": "amangorunmeyelm/status/1357127712868085764",
+#       "definition": {
+#         "like": true,
+#         "retweet": true
+#       }
+#     }
+#   ]
+# }
