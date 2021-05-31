@@ -28,6 +28,6 @@ class Target(Base):
 class Process(Base):
     id = Column(Integer, primary_key=True)
     accountId = Column(Integer, ForeignKey('account.id'))
-    typeId = Column(Integer, ForeignKey('type.id'))
+    typeId = Column(Integer)
     targetId = Column(Integer, ForeignKey('target.id'))
     organicDelay = Column(Boolean)  # BURDA KALDIN. DAHASI VARDI AMA UNUTTUM

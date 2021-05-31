@@ -4,7 +4,7 @@ from secrets import token_bytes
 from base64 import b64encode
 from subprocess import Popen
 
-from config import General
+from config import General, Selenium
 
 
 class Token:
@@ -45,19 +45,19 @@ class AccountFuncs:
         """
         işlemi tamamlanan, accountId'si verilen kullanıcıya ait verileri kaldırmak için bir subprocess çalıştırır.
         """
-        Popen(f'rm -rf {General.ACCOUNTS_PATH}/{accountId}', shell=True)
+        Popen(f'rm -rf {Selenium.ACCOUNTS_PATH}/{accountId}', shell=True)
 
     @classmethod
     def zip_account(cls, accountId: str):
         """
         initialize işleminde kullanılır. oluşturulan dosyalar önce ziplenir sonra silinir.
         """
-        Popen(f'zip -q -r {General.ACCOUNTS_PATH}/{accountId}.zip {General.ACCOUNTS_PATH}/{accountId}; rm -rf {General.ACCOUNTS_PATH}/{accountId}', shell=True)
+        Popen(f'zip -q -r {Selenium.ACCOUNTS_PATH}/{accountId}.zip {Selenium.ACCOUNTS_PATH}/{accountId}; rm -rf {Selenium.ACCOUNTS_PATH}/{accountId}', shell=True)
 
     @classmethod
     def unzip_account(cls, accountId: str):
         """
         kullanıcı ile işlem yapılabilmesi için dosyalar unzip ile çıkartılır.
         """
-        Popen(
-            f'unzip -q {General.ACCOUNTS_PATH}/{accountId}.zip -d /', shell=True)
+        f = Popen(
+            f'unzip -q {Selenium.ACCOUNTS_PATH}/{accountId}.zip -d /', shell=True)

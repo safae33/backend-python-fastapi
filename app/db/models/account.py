@@ -12,8 +12,9 @@ class Account(Base):
     Kullanıcıların ekledikleri hesapları içerir.
     """
     id = Column(Integer, primary_key=True)
-    # şimdilik buna yazıcam usernameleri. yeniden uğraşmak sitemedim
     proxy = Column(String(128))
-    # username = Column(String(128))
     isInit = Column(Boolean)
     userId = Column(Integer, ForeignKey('user.id'))
+    username = Column(String(50))
+    name = Column(String(50))
+    profilePicUrl = Column(String(100))

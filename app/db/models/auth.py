@@ -8,6 +8,7 @@ from app.db.basemodel import Base
 
 
 class Auth(Base):
+
     """
         Auth tablosu için SQLAlchemy class.
         **Parameters**
@@ -17,5 +18,5 @@ class Auth(Base):
     """
     id = Column(Integer, primary_key=True)
     userId = Column(Integer, ForeignKey('user.id'))
-    token = Column(String(length=200))
+    # token = Column(String(length=200))
     tokenCreate = Column(DateTime)

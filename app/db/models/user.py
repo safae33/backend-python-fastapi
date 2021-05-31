@@ -1,5 +1,5 @@
 """
-UserBasic, UserDetails
+UserBasic, 
 """
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, SmallInteger
 from sqlalchemy.orm import relationship
@@ -9,7 +9,7 @@ from app.db.basemodel import Base
 
 
 class User(Base):
-    """ Temel user class. id mail pw ve type içerir. kalan bilgiler gerektiğinde userdetailsden çekilir """
+    """ Temel user class.  """
     id = Column(Integer, primary_key=True)
     mail = Column(String(50), unique=True)
     pw_hash = Column(String(128))
@@ -18,6 +18,10 @@ class User(Base):
     last_name = Column(String(50))
     isActive = Column(Boolean)
     isDeleted = Column(Boolean)
+    accountLimit = Column(Integer)
+    processLimit = Column(Integer)
+
+    accounts = relationship('Account')
 
     # details = relationship('UserDetails', cascade="all,delete",
     #                        backref='userbasic', uselist=False)  # one-to-many den farklı

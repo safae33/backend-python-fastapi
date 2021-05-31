@@ -39,6 +39,9 @@ class Redis:
         """
         return self.redis.set(key, value, ex=ex)
 
+    def delete(self, key):
+        return self.redis.delete(key)
+
 
 class OAuth2:
 

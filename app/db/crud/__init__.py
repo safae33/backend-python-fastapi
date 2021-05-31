@@ -1,9 +1,11 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, session
 from datetime import datetime, timedelta
 from fastapi import HTTPException, status
+from sqlalchemy.sql.elements import Null
+from sqlalchemy.sql.expression import false
 
 from app.db.basemodel import Base
-from app.dependencies import get_db
+from app.db.session import SessionLocal
 from app.db.models import *
 from app.schemas.request import Login
 from app.services import PasswordHash, Token
@@ -11,30 +13,33 @@ from app.services import PasswordHash, Token
 
 class Crud:
     """
-        db, model ve işlemin gerektirdiği parametreler ile CRUD işlemleri yapan fonksiyonların bulunduğu class.
+        cls.db, model ve işlemin gerektirdiği parametreler ile CRUD işlemleri yapan fonksiyonların bulunduğu class.
     """
+
+    db: session = SessionLocal()
+
     @classmethod
-    def create(cls, db: Session, obj):
+    def create(cls, obj):
         """
             Veritabanında yeni veri oluşturmak.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'obj': Eklenecek SQLAlchemy Model instance
 
             **Returns**
         * instance olarak döndürür.
         """
-        db.add(obj)
-        db.commit()
-        db.refresh(obj)
+        cls.db.add(obj)
+        cls.db.commit()
+        cls.db.refresh(obj)
         return obj
 
     @classmethod
-    def get(cls, db: Session, model: Base, id, mapped: bool = True):
+    def get(cls,  model: Base, id, mapped: bool = True):
         """
             Veritabanınından tekli veri okumak.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'model': İşlem yapılacak SQLAlchemy Model classı
         * 'id': İstenen verinin Primary Keyi
         * 'mapped': Verinin instance halinde mapped işlemi yapılıp gerektiğinde liste olarak dönmesi için. Default True.
@@ -42,14 +47,14 @@ class Crud:
             **Returns**
         * 'mapped' parametresine göre Query objesi olarak veya instance olarak döndürür.
         """
-        return db.query(model).filter(model.id == id).first() if mapped else db.query(model).filter(model.id == id)
+        return cls.db.query(model).filter(model.id == id).first() if mapped else cls.db.query(model).filter(model.id == id)
 
     @classmethod
-    def get_multi(cls, db: Session, model: Base, skip: int = 0, limit: int = 0, mapped: bool = True):
+    def get_multi(cls,  model: Base, skip: int = 0, limit: int = 0, mapped: bool = True):
         """
             Veritabanında çoklu veri okumak.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'model': İşlem yapılacak SQLAlchemy Model classı
         * 'skip': İstenilen verinin soldan kesinti noktası. Default değer 0'dır.
         * 'limit': İstenilen verinin sağdan kesinti noktası Default değer 0'dır.
@@ -61,14 +66,14 @@ class Crud:
         * 'mapped' parametresine göre Query objesi olarak veya instance olarak döndürür.
         """
 
-        return db.query(model).offset(skip).limit(limit).all() if skip + limit != 0 else db.query(model).all() if mapped else db.query(model).offset(skip).limit(limit) if skip + limit != 0 else db.query(model)
+        return cls.db.query(model).offset(skip).limit(limit).all() if skip + limit != 0 else cls.db.query(model).all() if mapped else cls.db.query(model).offset(skip).limit(limit) if skip + limit != 0 else cls.db.query(model)
 
     @classmethod
-    def get_filtered(cls, db: Session, model: Base, key, value, mapped: bool = True):
+    def get_filtered(cls,  model: Base, key, value, mapped: bool = True):
         """
             Veritabanında çoklu veri okumak.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'model': İşlem yapılacak SQLAlchemy Model classı
         * 'key': Filtrelenecek alan ismi
         * 'limit': Filtrelenecek değer
@@ -81,18 +86,18 @@ class Crud:
         * sonuç boş ise None döner.
         """
 
-        res = db.query(model).filter(getattr(model, key) == value).all(
-        ) if mapped else db.query(model).filter(getattr(model, key) == value)
+        res = cls.db.query(model).filter(getattr(model, key) == value).all(
+        ) if mapped else cls.db.query(model).filter(getattr(model, key) == value)
         if len(res) == 1:
             return res[0]
         return res if res != [] else None
 
     @classmethod
-    def delete(cls, db: Session, model: Base, id: int):
+    def delete(cls,  model: Base, id: int):
         """
             Veritabanında veri silmek için.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'model': İşlem yapılacak SQLAlchemy Model classı
         * 'id': İstenen verinin Primary Keyi
 
@@ -100,19 +105,19 @@ class Crud:
         * Silinen verinin 'id' alanı döndürülür.
         """
 
-        obj = db.query(model).get(id)
+        obj = cls.db.query(model).get(id)
         if obj == None:
             return None
-        db.delete(obj)
-        db.commit()
+        cls.db.delete(obj)
+        cls.db.commit()
         return obj.id
 
     @classmethod
-    def update(cls, db: Session, model: Base, id, key, value):
+    def update(cls, model: Base, id: int, key: str = None, value: str = None, values: dict = None, mapped: bool = True):
         """
             Veritabanında veri güncelemek.
             **Parameters**
-        * 'db': Generated db SessionLocal nesnesi. Router içinde Depends ile gelen db gönderilir.
+        * 'cls.db': Generated cls.db SessionLocal nesnesi. Router içinde Depends ile gelen cls.db gönderilir.
         * 'model': İşlem yapılacak SQLAlchemy Model classı
         * 'id': Güncellenecek verinin Primary Keyi
         * 'key': Güncellenmek istenen alan ismi
@@ -121,19 +126,23 @@ class Crud:
             **Returns**
         * 'mapped' parametresine göre Query objesi olarak veya instance olarak döndürülür.
         """
-        obj = db.query(model).get(id)
-        setattr(obj, key, value)
-        db.commit()
-        return db.query(model).filter(model.id == obj.id).first() if mapped else db.query(model).filter(model.id == obj.id)
+        obj = cls.db.query(model).get(id)
+        if values == None:
+            setattr(obj, key, value)
+        else:
+            for key in values.keys():
+                setattr(obj, key, values[key])
+        cls.db.commit()
+        return cls.db.query(model).filter(model.id == obj.id).first() if mapped else cls.db.query(model).filter(model.id == obj.id)
 
 
 class MultiTable:
     @classmethod
-    def login(cls, db: Session, obj: Login):
+    def login(cls, obj: Login):
         """(Session, Login ) -> str
         """
         user: User = Crud.get_filtered(
-            db, User, 'mail', obj.username)
+            User, 'mail', obj.username)
         if user == None:
             # raise RowNotFound
             raise HTTPException(
@@ -144,6 +153,6 @@ class MultiTable:
                 status_code=status.HTTP_401_UNAUTHORIZED, detail="Şifre Eşleşmiyor.")
         else:
             token = Token.create_token()
-            Crud.create(db=db, obj=Auth(userId=user.id,
-                                        token=token, tokenCreate=datetime.now()))
+            Crud.create(obj=Auth(
+                userId=user.id, tokenCreate=datetime.now()))
             return token, user.id

@@ -4,21 +4,23 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+##psycopg2 = "*"
+##flower = "*"
 fastapi = "*"
 pydantic = "*"
 sqlalchemy = "*"
 uvicorn = "*"
-psycopg2 = "*"
 werkzeug = "*"
 jwt = "*"
 redis = "*"
 python-multipart = "*"
 selenium = "*"
 celery = "*"
-flower = "*"
 watchdog = "*"
 pyyaml = "*"
 argh = "*"
+psycopg2 = "*"
+flower = "*"
 
 [dev-packages]
 

@@ -13,10 +13,19 @@ class Account(BaseModel):
     password: str
 
 
-class CheckCelery(BaseModel):
-    id: str
+class SCheckCelery(BaseModel):
+    taskId: str
 
 
 class delAcc(BaseModel):
     # yalnızca test için hızlıca account silmek için
     id: int
+
+
+class delToken(BaseModel):
+    # token silmek için request scheması. yalnızca token içeirr
+    token: str
+
+
+class StwitterUrl(BaseModel):
+    url: str
