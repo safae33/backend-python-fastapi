@@ -10,9 +10,9 @@ from app.schemas.request import Account as AccountSc, StwitterUrl, delAcc
 from app.schemas.request.accountworker import AccountWorker
 from app.db.models import Account, Auth
 from app.services.selenium import Twitter
-from app.celery.twitter import get_tweet_info, twitter_login, set_workers_for_account
+from app.celery.twitter import get_tweet_info, twitter_login, set_workers_for_account, start_new_process
 from app.schemas.request import SCheckCelery
-from app.schemas.response import SCeleryCheckResponse
+from app.schemas.request.newProcess import ScNewProcess
 from app.celery import check
 
 
@@ -57,6 +57,11 @@ def newAccount(request: AccountSc, userId: int = Depends(OAuth2.get_current_user
 @twitter.post('/startWorker')
 def startWorker(request: AccountWorker, db: session = Depends(get_db), userId: int = Depends(OAuth2.get_current_user)):
     return set_workers_for_account.apply_async(args=[request.dict()], countdown=1).task_id
+
+
+@twitter.post('/startNewProcess')
+def startNewProcess(request: ScNewProcess, userId: int = Depends(OAuth2.get_current_user)):
+    return start_new_process.delay(request.dict()).task_id
 
 
 @twitter.post('/getTweetInfo', response_model=StweetInfo)

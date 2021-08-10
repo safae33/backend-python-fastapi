@@ -1,16 +1,11 @@
 from pydantic import BaseModel
-from typing import List
-
-
-class WorkDefinition(BaseModel):
-    like: bool
-    retweet: bool
-    # mention: bool = False
 
 
 class Work(BaseModel):
     tweetUrl: str
-    definition: WorkDefinition
+    like: bool
+    retweet: bool
+    # mention:  bool = False
 
 
 class AccountWorker(BaseModel):
@@ -18,7 +13,7 @@ class AccountWorker(BaseModel):
     worker başlaması için tek bir accounta ait iş bildirimi.
     """
     accountId: str
-    works: List[Work]
+    works: list[Work]
 
 # {
 #   "userId": "",

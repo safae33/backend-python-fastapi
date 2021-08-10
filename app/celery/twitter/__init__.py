@@ -1,11 +1,14 @@
 from app.db.crud import Crud
 from sqlalchemy.orm import session
+from pydantic import parse_obj_as
 from app.db.models.account import Account
 from app.celery import app
 from app.services.selenium import Twitter
 from app.db.session import SessionLocal
 
 from app.schemas.request.accountworker import AccountWorker, Work
+from app.schemas.request.newProcess import ScNewProcess
+from app.dependencies import Redis
 
 
 @app.task
@@ -15,6 +18,19 @@ def get_tweet_info(url: str):
     tw.close_all()
     del tw
     return tweet
+
+
+@app.task
+def start_new_process(newProcess_dict):
+    ## start_new_process.request.id task başlayınca oluşan task_id bu.
+    try:
+        newProcess = parse_obj_as(ScNewProcess, newProcess_dict)
+        cache = Redis()
+
+        
+    except Exception as e:
+        print(e)
+        # burda kaldın
 
 
 @app.task

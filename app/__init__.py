@@ -1,8 +1,7 @@
+from app.schemas.request.accountworker import AccountWorker
 from app.db.models.account import Account
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-from app.db import session
 
 from .routes.auth import auth
 from .routes.twitter import twitter
@@ -10,9 +9,9 @@ from app.db import create_all
 from app.db.crud import Crud
 from app.db.models.user import User
 
-
+from app.celery.twitter import start_new_process
 from app.dependencies import OAuth2
-from config import General
+
 
 app = FastAPI()
 
@@ -41,8 +40,10 @@ def startup():
 
 
 @app.get('/checkCelerytestttttttt')
-def tes1t(userId: int = Depends(OAuth2.get_current_user)):
-    return {'yess': userId}
+def tes1t():
+    a = AccountWorker.construct()
+    a.accountId = "2"
+    return a
 
 
 app.include_router(auth, prefix='/auth', tags=['Auth'])

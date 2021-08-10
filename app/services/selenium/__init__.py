@@ -63,13 +63,13 @@ class Twitter():
         works: List[Work] = parse_obj_as(List[Work], works_dict)
         self.browser = webdriver.Chrome(chrome_options=self.options)
         for work in works:
-            if work.definition.like:
+            if work.like:
                 self.like_tweet_by_url(work.tweetUrl)
                 print("LİKE KISMINDA BİTTİ RT YE GEÇİYORUM.")
                 # if work.definition.retweet:
                 #     sleep(1)
                 #     self.retweet_tweet_by_url(work.tweetUrl)
-            if work.definition.retweet:
+            if work.retweet:
                 self.retweet_tweet_by_url(work.tweetUrl)
             if(len(works) != 1):
                 sleep(delayBetweenTweets)
